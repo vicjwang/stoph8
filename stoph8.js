@@ -40,23 +40,28 @@ const PROMPT_CRIME = {
 };
 
 const PROMPT_MEDIA = {
-
+  [LANGUAGE.EN]: "Do you have a photo or video of the assailant? If so, can you please send it with whatever you have?",
+  [LANGUAGE.ZHT]: "你有襲擊者的照片或視頻嗎？ 如果是這樣，你能把它和你有的東西一起寄出去嗎？",
 };
 
 const PROMPT_WHEN = {
-
+  [LANGUAGE.EN]: "When did it happen?\n1 if just now\n2 if today\n3 if other date (please enter as MM/DD/YYYY)",
+  [LANGUAGE.ZHT]: "什麼時候發生的？\n1 如果剛剛\n2 如果今天\n3 如果其他日期(請輸入 MM/DD/YYYY)",
 };
 
 const PROMPT_WHERE = {
-
+  [LANGUAGE.EN]: "Where did this happen? Cross streets, Address, City, Zipcode, State, Local landmark",
+  [LANGUAGE.ZHT]: "這發生在哪裡？ 十字路口、地址、城市、郵政編碼、州、當地地標",
 };
 
 const PROMPT_AGE = {
-
+  [LANGUAGE.EN]: "What is your age?\n1 if 60+\n2 if 50-59\n3 if 40-49\n4 if 30-39\n5 if 20-29\n6 if 10-19",
+  [LANGUAGE.ZHT]: "您的年齡是多少？\n1 如果 60+\n2 如果 50-59\n3 如果 40-49\n4 如果 30-39\n5 如果 20-29\n6 如果 10-19",
 };
 
 const PROMPT_FOLLOWUP = {
-
+  [LANGUAGE.EN]: "Would you be willing to be contacted about this at a later date?\n1 if Yes\n2 if No",
+  [LANGUAGE.ZHT]: "您是否願意稍後就此事與您聯繫？\n1 如果是\n2 如果不是",
 };
 
 const PROMPT_BYE = {
@@ -69,11 +74,11 @@ const PROMPTS = [
   PROMPT_DANGER,
   PROMPT_LANGUAGE,
   PROMPT_CRIME,
-  //PROMPT_MEDIA,
-  //PROMPT_WHEN,
-  //PROMPT_WHERE,
-  //PROMPT_AGE,
-  //PROMPT_FOLLOWUP,
+  PROMPT_MEDIA,
+  PROMPT_WHEN,
+  PROMPT_WHERE,
+  PROMPT_AGE,
+  PROMPT_FOLLOWUP,
   PROMPT_BYE
 ];
 
@@ -89,6 +94,8 @@ exports.handler = (context, event, callback) => {
   // always strings, so you'll need to convert the count to a number
   let promptIndex = Number(event.request.cookies.promptIndex) || 0;
   let language = event.request.cookies.language || LANGUAGE.EN;
+
+  
   
   const prompt = PROMPTS[promptIndex];
 
