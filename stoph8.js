@@ -14,8 +14,8 @@ const LANGUAGE = {
   ZHT: "zht",
   ZHC: "zhc",
   HI: "hi",
-  /*
   JA: "ja",
+  /*
   KA: "ka",
   VI: "vi",
   TL: "tl",
@@ -28,6 +28,7 @@ const LANGUAGES = [
   {[LANGUAGE.ZHT]: "Traditional Chinese"},
   {[LANGUAGE.ZHC]: "Simplified Chinese"},
   {[LANGUAGE.HI]: "Hindi"},
+  {[LANGUAGE.JA]: "Japanese"}
   //{[LANGUAGE.ES]: "Spanish"},
 ];
 
@@ -74,6 +75,13 @@ const PROMPT_CRIME = {
       4 एक व्यवसाय से सेवा से इनकार
       5 बर्बरता
       6 अन्य (कृपया विवरण दें)`,
+    [LANGUAGE.JA]: `どんな事件を報告していますか？
+      1 身体的危害
+      2 身体的危害の脅威
+      3 口頭の嫌がらせ
+      4 ビジネスからのサービスの拒否
+      5 破壊行為
+      6 その他（詳細を教えてください）`,
 };
 
 const PROMPT_MEDIA = {
@@ -81,6 +89,7 @@ const PROMPT_MEDIA = {
   [LANGUAGE.ZHT]: "您有襲擊者的照片或視頻嗎？如果是這樣，您可以發送嗎？",
   [LANGUAGE.ZHC]: "您有袭击者的照片或视频吗？如果是这样，您可以发送吗？",
   [LANGUAGE.HI]: `क्या आपके पास हमलावर की तस्वीर या वीडियो है? यदि हां, तो क्या आप इसे भेज सकते हैं?`,
+  [LANGUAGE.JA]: `加害者の写真やビデオはありますか？もしそうなら、あなたはそれを送ることができますか？`,
 };
 
 const PROMPT_WHEN = {
@@ -100,6 +109,10 @@ const PROMPT_WHEN = {
     1 अभी
     2 आज
     3 अन्य दिनांक (कृपया मिमी/डीडी/yyyy के रूप में दर्ज करें)`,
+  [LANGUAGE.JA]: `それはいつ起きましたか？
+    ちょうど今
+    2今日
+    3他の日付（mm/dd/yyyyとして入力してください）`,
 };
 
 const PROMPT_WHERE = {
@@ -107,6 +120,7 @@ const PROMPT_WHERE = {
   [LANGUAGE.ZHT]: "這發生在哪裡？ 十字路口、地址、城市、郵政編碼、州、當地地標",
   [LANGUAGE.ZHC]: "这是在哪里发生的？跨街，地址，城市，邮政编码，州，当地地标",
   [LANGUAGE.HI]: `यह कहाँ हुआ? क्रॉस सड़कों, पता, शहर, ज़िपकोड, राज्य, स्थानीय लैंडमार्क`,
+  [LANGUAGE.JA]: `これはどこで起こりましたか？クロスストリート、住所、都市、ジップコード、州、ローカルランドマーク`,
 };
 
 const PROMPT_AGE = {
@@ -138,6 +152,13 @@ const PROMPT_AGE = {
     4 30-39
     5 20-29
     6 अंडर 19`,
+  [LANGUAGE.JA]: `あなたは何歳ですか？
+    1 60+
+    2 50-59
+    3 40-49
+    4 30-39
+    5 20-29
+    6 19歳未満`,
 };
 
 const PROMPT_FOLLOWUP = {
@@ -153,6 +174,9 @@ const PROMPT_FOLLOWUP = {
   [LANGUAGE.HI]: `क्या आप बाद की तारीख (यदि आवश्यक हो) पर संपर्क करने के लिए तैयार होंगे?
     1 हाँ
     2 नहीं`,
+  [LANGUAGE.JA]: `後日（必要に応じて）連絡を受けることをいとわないでしょうか？
+    1はい
+    2いいえ`,
 };
 
 const PROMPT_PRIVACY = {
@@ -171,6 +195,9 @@ const PROMPT_PRIVACY = {
   [LANGUAGE.HI]: `क्या आप गोपनीयता नीति और सेवा की शर्तों के लिए ऑप्ट-इन करने के लिए सहमत हैं जो https://www.reporthate.info/privacy पर देखे जा सकते हैं?
     1 हाँ
     2 नहीं`,
+  [LANGUAGE.JA]: `https://www.reporthate.info/privacyで見つけることができるプライバシーポリシーと利用規約にオプトインすることに同意しますか？
+    1はい
+    2いいえ`,
 }
 
 const PROMPT_BYE = {
@@ -179,6 +206,7 @@ const PROMPT_BYE = {
   [LANGUAGE.ZHT]: `謝謝你。您的答复已被記錄下來，並將移交給適當的當局。我們將共同“stoph8”`,
   [LANGUAGE.ZHC]: `谢谢你。您的答复已被记录下来，并将移交给适当的当局。我们将共同“stoph8”`,
   [LANGUAGE.HI]: `धन्यवाद। आपकी प्रतिक्रियाएं दर्ज की गई हैं और उन्हें उपयुक्त अधिकारियों को सौंप दिया जाएगा। साथ में हम सभी "stoph8" करेंगे`,
+  [LANGUAGE.JA]: `ありがとうございました。あなたの回答は記録されており、適切な当局に引き渡されます。一緒に私たちはすべて「stoph8」になります`,
 }
 
 const PROMPTS = [
