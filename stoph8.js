@@ -184,24 +184,24 @@ const PROMPT_CRIME = {
 
 const PROMPT_MEDIA = {
   [LANGUAGE.EN]: `If you have a photo or video of the assailant or the incident, please provide. 
-  If you do not have a photo or video, text ""NO"" to continue.`,
+  If you do not have a photo or video, text "NO" to continue.`,
   [LANGUAGE.ZHT]: `請上傳圖片或視頻證據
   如無圖片或視頻證據，請回復"NO"繼續檢舉`,
   [LANGUAGE.ZHC]: `请上传图片或视频证据
   如无图片或视频证据，请回复"NO"继续举报`,
   [LANGUAGE.HI]: `यदि आपके पास हमलावर या घटना का कोई फोटो या वीडियो है, तो कृपया प्रदान करें
-  यदि आपके पास कोई फ़ोटो या वीडियो नहीं है, तो जारी रखने के लिए ""NO"" टेक्स्ट करें`,
+  यदि आपके पास कोई फ़ोटो या वीडियो नहीं है, तो जारी रखने के लिए "NO" टेक्स्ट करें`,
   [LANGUAGE.JA]: `もし危害を加えられた証拠となる写真や動画がありましたらご提出ください。もし無い場合は、"NO"とご送信ください。`,
   [LANGUAGE.KO]: `사건 가해자의 사진이나 동영상이 있으면제공 하세요. 사진이나 동영상이 없으면 문자로  "NO" 누르세요.`,
   [LANGUAGE.VI]: `Nếu quý vị có bằng chứng hình ảnh hoặc phim video về kẻ tấn công hoặc sự cố, xin vui lòng cung cấp.
-  Nếu quý vị không có bằng chứng hình ảnh hoặc phim video, xin vui lòng nhắn tin ""NO"" để tiếp tục`,
+  Nếu quý vị không có bằng chứng hình ảnh hoặc phim video, xin vui lòng nhắn tin "NO" để tiếp tục`,
   [LANGUAGE.TL]: `Kung meron kang litrato o kaya video ng taong umatake sayo o kaya ng pangyayari, pakiusap na ibigay sa amin. 
-  Kung wala kang mga bagay na ito, pakiusap na itext ang salitang ""NO"" upang magpatuloy.`,
+  Kung wala kang mga bagay na ito, pakiusap na itext ang salitang ""NO" upang magpatuloy.`,
   [LANGUAGE.CB]: `Kung naa kay litrato o video sa nag-atake o insidente, palihug paghatag. Kung wala kay litrato o vido, i-text ang "NO" aron magpadayon`,
   [LANGUAGE.ES]: `Si tiene una foto o video del agresor o del incidente por favor provéela.
-  Si no tiene photo o video, haga text ""NO"" para continuar.`,
+  Si no tiene photo o video, haga text "NO" para continuar.`,
   [LANGUAGE.DE]: `Wenn Sie ein Foto oder Video des Angreifers oder des Vorfall haben, stellen Sie es bitte zur Verfügung.
-  Wenn Sie kein Foto oder Video haben, schreiben Sie ""NO"", um fortzufahren.`,
+  Wenn Sie kein Foto oder Video haben, schreiben Sie "NO", um fortzufahren.`,
   [LANGUAGE.FR]: `Si vous avez une photo ou un film de l'assaillant ou de l'accident, envoyez le nous. 
   Dans le cas contraire envoyez le message "NO" pour continuer.`,
 };
@@ -471,12 +471,10 @@ exports.handler = async (context, event, callback) => {
   let promptIndex = Number(event.request.cookies.promptIndex) || 0;
   let language = event.request.cookies.language || LANGUAGE.EN;
 
-  promptIndexDanger = PROMPTS.findIndex(promptObj => promptObj.id === PROMPT_ID.DANGER);
-  promptIndexWhen = PROMPTS.findIndex(promptObj => promptObj.id === PROMPT_ID.WHEN);
-  promptIndexWhere = PROMPTS.findIndex(promptObj => promptObj.id === PROMPT_ID.WHERE);
+  const promptIndexDanger = PROMPTS.findIndex(promptObj => promptObj.id === PROMPT_ID.DANGER);
   
   // Shortcirtuit if user in danger.
-  if (promptIndex === promptIndexDanger + 1) {
+  if (promptIndex === promptIndexDanger + 1 && body === '1') {
     let message = RESPONSE_911;
   
     twiml.message(message);
@@ -491,8 +489,11 @@ exports.handler = async (context, event, callback) => {
     response.removeCookie('language');
     response.removeCookie('when');
     response.removeCookie('incidentId');
-    return;
+    return callback(null, response);
   }
+
+  const promptIndexWhen = PROMPTS.findIndex(promptObj => promptObj.id === PROMPT_ID.WHEN);
+  const promptIndexWhere = PROMPTS.findIndex(promptObj => promptObj.id === PROMPT_ID.WHERE);
 
   const prompt = PROMPTS[promptIndex];
 
