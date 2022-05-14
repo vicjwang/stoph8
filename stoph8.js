@@ -71,6 +71,8 @@ const PROMPT_DANGER = {
   2 - No`,
 };
 
+const RESPONSE_911 = `If this is an emergency, you are in immediate danger, or need medical assistance, please call 911 immediately.`;
+
 const PROMPT_LANGUAGE = {
   id: PROMPT_ID.LANGUAGE,
   [LANGUAGE.EN]: "What language do you prefer to respond in?\n" + LANGUAGES.map((langObj, i) => `${i+1} ${Object.values(langObj)[0]}`).join("\n"),
@@ -469,10 +471,29 @@ exports.handler = async (context, event, callback) => {
   let promptIndex = Number(event.request.cookies.promptIndex) || 0;
   let language = event.request.cookies.language || LANGUAGE.EN;
 
-  // Send to hatecrimetracker.org
+  promptIndexDanger = PROMPTS.findIndex(promptObj => promptObj.id === PROMPT_ID.DANGER);
   promptIndexWhen = PROMPTS.findIndex(promptObj => promptObj.id === PROMPT_ID.WHEN);
   promptIndexWhere = PROMPTS.findIndex(promptObj => promptObj.id === PROMPT_ID.WHERE);
   
+  // Shortcirtuit if user in danger.
+  if (promptIndex === promptIndexDanger + 1) {
+    let message = RESPONSE_911;
+  
+    twiml.message(message);
+
+    response
+      // Add the stringified TwiML to the response body
+      .setBody(twiml.toString())
+      // Since we're returning TwiML, the content type must be XML
+      .appendHeader('Content-Type', 'text/xml')
+
+    response.removeCookie('promptIndex');
+    response.removeCookie('language');
+    response.removeCookie('when');
+    response.removeCookie('incidentId');
+    return;
+  }
+
   const prompt = PROMPTS[promptIndex];
 
   // Çurrent prompt has to be the one after language prompt aka Body is responding to previous prompt.
