@@ -26,6 +26,8 @@ const composePayload = ({when="", where="", incidentId=null} = {}) => {
   };
 };
 
+AFFIRMATIVE = ["yes", "Yes", "Y", "1", 1];
+
 const PROMPT_ID = {
   DANGER: "danger",
   LANGUAGE: "language",
@@ -75,7 +77,7 @@ const RESPONSE_911 = `If this is an emergency, you are in immediate danger, or n
 
 const PROMPT_LANGUAGE = {
   id: PROMPT_ID.LANGUAGE,
-  [LANGUAGE.EN]: "What language do you prefer to respond in?\n" + LANGUAGES.map((langObj, i) => `${i+1} ${Object.values(langObj)[0]}`).join("\n"),
+  [LANGUAGE.EN]: "What language do you prefer to respond in?\n" + LANGUAGES.map((langObj, i) => `${i+1} - ${Object.values(langObj)[0]}`).join("\n"),
   /*
   "What language do you prefer to respond in?
   1 - English
@@ -474,7 +476,7 @@ exports.handler = async (context, event, callback) => {
   const promptIndexDanger = PROMPTS.findIndex(promptObj => promptObj.id === PROMPT_ID.DANGER);
   
   // Shortcirtuit if user in danger.
-  if (promptIndex === promptIndexDanger + 1 && body === '1') {
+  if (promptIndex === promptIndexDanger + 1 && AFFIRMATIVE.includes(body)) {
     let message = RESPONSE_911;
   
     twiml.message(message);
